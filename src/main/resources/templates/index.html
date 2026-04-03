@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Portal - Home</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/font-awesome.min.css}"/>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/styles.css}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <meta charset="ISO-8859-1">
+
+</head>
+<body class="home-page">
+<div class="home-shell">
+    <header class="home-nav">
+        <a class="home-brand" th:href="@{/}">
+            <img class="home-brand-logo" th:src="@{/assets/logo.png}" src="/assets/logo.png" alt="NextHire"/>
+            
+        </a>
+        <div class="home-nav-actions">
+            <a class="home-nav-link" th:href="@{/login}">User Login</a>
+            <a class="home-nav-link" th:href="@{/login}">Recruiter Login</a>
+            <a class="home-nav-cta" th:href="@{/register}">Create Account</a>
+        </div>
+    </header>
+
+    <main class="home-main">
+        <section class="home-hero-copy">
+            <span class="home-eyebrow">Built for freshers, interns, and growing teams</span>
+            <h1 class="home-sf-text">Find a cleaner path from your next search to your next role.</h1>
+            <p>
+                Discover openings faster, explore by location, and move between candidate and recruiter workflows
+                without the clutter.
+            </p>
+
+            <div class="home-hero-actions">
+                <a class="home-primary-button" href="#job-search">Start Searching</a>
+                <a class="home-secondary-button" th:href="@{/register}">Join NextHire</a>
+            </div>
+        </section>
+
+        <section class="home-hero-panel" id="job-search">
+            <form class="home-search-card" th:action="@{/global-search/}">
+                <div class="home-search-heading">
+                    <span class="home-search-tag">Quick Search</span>
+                    <h2 class="home-sf-text">Search jobs in a few seconds</h2>
+                    <p>Use a role, skill, or company name and pair it with the city you want.</p>
+                </div>
+
+                <div class="home-search-fields">
+                    <label class="home-field">
+                        <span>Job title or keyword</span>
+                        <input type="text" placeholder="Frontend Developer, Java, Analyst..." name="job" th:value="${job}"/>
+                    </label>
+                    <label class="home-field">
+                        <span>Preferred location</span>
+                        <input type="text" placeholder="Hyderabad, Bengaluru, Remote..." name="location" th:value="${location}"/>
+                    </label>
+                </div>
+
+                <button class="home-search-button" type="submit">
+                    <span class="home-search-emoji" aria-hidden="true">🔍</span>
+                    <span>Search Jobs</span>
+                </button>
+            </form>
+
+            <div class="home-access-grid">
+                <a class="home-access-card" th:href="@{/login}">
+                    <span class="home-access-label">For Candidates</span>
+                    <strong>Track applications and build your profile</strong>
+                    <p>Keep your next move organized in one place.</p>
+                </a>
+                <a class="home-access-card recruiter" th:href="@{/login}">
+                    <span class="home-access-label">For Recruiters</span>
+                    <strong>Post roles and manage applicants with less friction</strong>
+                    <p>Reach fresh talent with a simpler workflow.</p>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    
+
+    <footer class="home-footer">
+        <span>Copyright © Nanda</span>
+    </footer>
+</div>
+
+
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

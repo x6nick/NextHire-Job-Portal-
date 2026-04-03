@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+            th:rel="stylesheet"
+            th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "
+    />
+    <link
+            rel="stylesheet"
+            type="text/css"
+            media="all"
+            th:href="@{/css/font-awesome.min.css}"
+    />
+    <link
+            rel="stylesheet"
+            type="text/css"
+            media="all"
+            th:href="@{/css/styles.css}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Login</title>
+</head>
+
+<body class="auth-page auth-login-page">
+<div class="auth-shell">
+	    <section class="auth-showcase">
+	        <a class="auth-brand" th:href="@{/}">
+	            <img class="auth-brand-logo" th:src="@{/assets/logo.png}" src="/assets/logo.png" alt="NextHire"/>
+	        </a>
+
+        <div class="auth-showcase-copy">
+            <span class="auth-kicker">Candidate + Recruiter Access</span>
+            <h1 class="auth-sf-text">Welcome back to a simpler hiring journey.</h1>
+            <p>
+                Sign in to manage applications, post jobs, and keep your hiring workflow moving from one clean workspace.
+            </p>
+        </div>
+
+        <div class="auth-showcase-points">
+            <div class="auth-point">
+                <strong>Faster search flow</strong>
+                <span>Jump from login to jobs without extra noise.</span>
+            </div>
+            <div class="auth-point">
+                <strong>Built for both sides</strong>
+                <span>Use the same portal whether you are hiring or applying.</span>
+            </div>
+            <div class="auth-point">
+                <strong>Clean next steps</strong>
+                <span>Reach dashboard actions quickly after authentication.</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="auth-panel">
+        <div class="auth-card">
+            <div class="auth-card-header">
+                <span class="auth-card-tag">Login</span>
+                <h2>Access your account</h2>
+                <p>Enter your email and password to continue.</p>
+            </div>
+
+            <div class="auth-alert error" th:if="${param.error}">
+                Invalid email or password. Please try again.
+            </div>
+            <div class="auth-alert success" th:if="${param.logout}">
+                You have been logged out successfully.
+            </div>
+            <div class="auth-alert success" th:if="${param.registered}">
+                Your account was created successfully. Please log in to continue.
+            </div>
+
+            <form class="auth-form" th:action="@{/login}" method="post">
+                <label class="auth-field">
+                    <span>Email address</span>
+                    <input
+                            placeholder="name@example.com"
+                            name="username"
+                            type="email"
+                            class="form-control"
+                            required
+                    />
+                </label>
+
+                <label class="auth-field">
+                    <span>Password</span>
+                    <input
+                            placeholder="Enter your password"
+                            name="password"
+                            type="password"
+                            class="form-control"
+                            required
+                    />
+                </label>
+
+                <button type="submit" class="auth-submit">Log in</button>
+            </form>
+
+            <div class="auth-card-footer">
+                <p>New here? <a class="color-text" th:href="@{/register}">Create an account</a></p>
+                <a class="auth-back-link" th:href="@{/}">Back to home</a>
+            </div>
+        </div>
+    </section>
+</div>
+<script
+        type="text/javascript"
+        th:src="@{/webjars/jquery/jquery.min.js}"
+></script>
+<script
+        type="text/javascript"
+        th:src="@{/webjars/popper.js/umd/popper.min.js}"
+></script>
+<script
+        type="text/javascript"
+        th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"
+></script>
+<script type="text/javascript" th:src="@{/js/main.js}"></script>
+</body>
+</html>

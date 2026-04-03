@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Recruiter Dashboard</title>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/styles.css}"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/webjars/font-awesome/css/all.css}"/>
+</head>
+
+<body class="recruiter-dashboard-page">
+<header class="navbar navbar-expand-lg navbar-dark">
+    <label class="mt-2 ms-5 font-weight-bold h5">
+        <a class="app-brand-link" th:href="@{/recruiter/dashboard/}">
+            <img class="app-brand-logo" th:src="@{/assets/logo.png}" src="/assets/logo.png" alt="NextHire"/>
+        </a>
+    </label>
+
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarToggler"
+            aria-controls="navbarToggler"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+        <ul class="navbar-nav m-auto mt-2 mt-lg-0">
+            <li class="nav-item ">
+                <a class="nav-link" th:href="@{/dashboard/add}">
+                    <i class="fa-solid fa-file-circle-plus"></i>Post New Job
+                </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/recruiter/dashboard/}">
+                    <i class="fa-solid fa-gauge-high"></i>Dashboard
+                </a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" th:href="@{/recruiter-profile/}">
+                    <i class="fa-solid fa-pencil"></i>Edit Account
+                </a>
+            </li>
+        </ul>
+
+        <img
+                class="rounded-circle me-3"
+                height="50px"
+                width="50x"
+                th:if="${user.photosImagePath!=null}"
+                th:src="@{${user?.photosImagePath}}"
+                alt="Profile photo"
+        />
+
+        <label th:if="${user.firstName != null && user.lastName != null}"
+               th:text="${user.firstName+' '+user.lastName}"
+               class="nav-item nav-link px-2 me-3">
+        </label>
+
+        <label th:unless="${user.firstName != null && user.lastName != null}" th:text="${username}"
+               class="nav-item nav-link px-2 me-3"></label>
+
+        <button class="myBtn-light me-5" onclick="window.location.href='/logout'">Logout</button>
+    </div>
+</header>
+
+<section class="section rd-section">
+    <div class="sidenav px-4 rd-sidenav">
+        <div class="rd-panel rd-glass-card">
+            <label class="text-uppercase color-dull font-weight-bold">Quick Actions</label>
+            <hr/>
+            <a class="rd-menu-link" th:href="@{/dashboard/add}">
+                <i class="fa-solid fa-file-circle-plus"></i>Post New Job
+            </a>
+            <a class="rd-menu-link" th:href="@{/recruiter-profile/}">
+                <i class="fa-solid fa-user-pen"></i>Update Profile
+            </a>
+            <a class="rd-menu-link" href="/logout">
+                <i class="fa-solid fa-right-from-bracket"></i>Logout
+            </a>
+        </div>
+
+        <div class="rd-panel rd-glass-card">
+            <label class="text-uppercase color-dull font-weight-bold">Summary</label>
+            <hr/>
+            <div class="rd-stat-card">
+                <span class="rd-stat-label">Job Posts</span>
+                <span class="rd-stat-value" th:text="${totalJobs}">0</span>
+            </div>
+            <div class="rd-stat-card">
+                <span class="rd-stat-label">Total Applicants</span>
+                <span class="rd-stat-value" th:text="${totalCandidates}">0</span>
+            </div>
+        </div>
+    </div>
+
+    <article>
+        <div class="box">
+            <h1 class="primary-title">Recruiter Dashboard</h1>
+            <p class="rd-subtitle mb-0">
+                Post jobs, review applicants, and keep your hiring pipeline organized.
+            </p>
+        </div>
+
+        <div class="box">
+            <label class="large-label px-3 mb-2">Your Job Posts</label>
+
+            <div class="px-3 pb-2 rd-empty-state" th:if="${jobPost == null || #lists.isEmpty(jobPost)}">
+                You have not posted any jobs yet.
+                <a class="color-text" th:href="@{/dashboard/add}">Create your first job post</a>.
+            </div>
+
+            <th:block th:each="jobPost : ${jobPost}">
+                <div class="rd-job-card rd-glass-card">
+                    <div class="rd-job-grid">
+                        <div class="rd-job-main">
+                            <div class="rd-job-top">
+                                <div class="rd-job-title">[[${jobPost.jobTitle}]]</div>
+                                <span class="rd-job-count" th:text="${jobPost.totalCandidates} + ' applied'">0 applied</span>
+                            </div>
+                            <div class="rd-job-meta">
+                                <span class="rd-job-company" th:text="${jobPost.jobCompanyId.name}">Company</span>
+                                <span class="rd-job-dot" aria-hidden="true">•</span>
+                                <span class="rd-job-location"
+                                      th:text="${jobPost.jobLocationId.city+', '+ jobPost.jobLocationId.state}">
+                                    City, State
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="rd-job-actions">
+                            <a class="btn-sec btn-black"
+                               th:href="@{/job-details-apply/{id}(id=${jobPost.jobPostId})}">
+                                <i class="fa-solid fa-eye"></i>View
+                            </a>
+                            <form th:action="@{/dashboard/edit/{id}(id=${jobPost.jobPostId})}" method="post"
+                                  class="rd-inline-form">
+                                <button class="btn-sec btn-red" type="submit">
+                                    <i class="fa-solid fa-pen-to-square"></i>Edit
+                                </button>
+                            </form>
+                            <form th:action="@{/dashboard/deleteJob/{id}(id=${jobPost.jobPostId})}" method="post"
+                                  class="rd-inline-form"
+                                  onsubmit="return confirm('Delete this job post? This will remove saved/applied links too.');">
+                                <button class="btn-sec btn-black" type="submit">
+                                    <i class="fa-solid fa-trash"></i>Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+    </article>
+</section>
+
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>

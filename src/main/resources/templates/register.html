@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+            th:rel="stylesheet"
+            th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "
+    />
+    <link
+            rel="stylesheet"
+            type="text/css"
+            media="all"
+            th:href="@{/css/font-awesome.min.css}"
+    />
+    <link
+            rel="stylesheet"
+            type="text/css"
+            media="all"
+            th:href="@{/css/styles.css}"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Sign Up</title>
+</head>
+
+<body class="auth-page auth-register-page">
+<div class="auth-shell">
+	    <section class="auth-showcase">
+	        <a class="auth-brand" th:href="@{/}">
+	            <img class="auth-brand-logo" th:src="@{/assets/logo.png}" src="/assets/logo.png" alt="NextHire"/>
+	        </a>
+
+        <div class="auth-showcase-copy">
+            <span class="auth-kicker">Create your workspace</span>
+            <h1>Start with an account that feels easy to use.</h1>
+            <p>
+                Join as a candidate or recruiter, then move into the right dashboard flow without extra setup confusion.
+            </p>
+        </div>
+
+        <div class="auth-showcase-points">
+            <div class="auth-point">
+                <strong>Choose your role</strong>
+                <span>Register once and enter the right experience for hiring or applying.</span>
+            </div>
+            <div class="auth-point">
+                <strong>Simple onboarding</strong>
+                <span>The essentials are up front so you can get started quickly.</span>
+            </div>
+            <div class="auth-point">
+                <strong>Consistent experience</strong>
+                <span>The new UI matches the refreshed home page for a smoother first impression.</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="auth-panel">
+        <div class="auth-card">
+            <div class="auth-card-header">
+                <span class="auth-card-tag">Register</span>
+                <h2>Create your account</h2>
+                <p>Set up your email, password, and account type to continue.</p>
+            </div>
+
+            <div class="auth-alert error" th:if="${error}">
+                <span th:text="${error}"></span>
+            </div>
+
+            <form
+                    class="auth-form"
+                    th:action="@{/register/new}"
+                    th:object="${user}"
+                    method="post"
+            >
+                <label class="auth-field">
+                    <span>Email address</span>
+                    <input
+                            placeholder="name@example.com"
+                            name="email"
+                            th:field="*{email}"
+                            type="email"
+                            class="form-control"
+                            required
+                    />
+                </label>
+
+                <label class="auth-field">
+                    <span>Password</span>
+                    <input
+                            minlength="8"
+                            placeholder="Create a secure password"
+                            name="password"
+                            th:field="*{password}"
+                            type="password"
+                            class="form-control pwd"
+                            required
+                    />
+                </label>
+
+                <label class="auth-field">
+                    <span>Account type</span>
+                    <select required class="form-control auth-select" th:field="*{userTypeId}">
+                        <option value="" disabled th:selected="${user.userTypeId == null}">Select account type</option>
+                        <th:block th:each="userType :${getAllTypes}">
+                            <option
+                                    th:text="${userType.userTypeName}"
+                                    th:value="${userType.userTypeId}"
+                            ></option>
+                        </th:block>
+                    </select>
+                </label>
+
+                <button type="submit" class="auth-submit">Create account</button>
+            </form>
+
+            <div class="auth-card-footer">
+                <p>Already have an account? <a class="color-text" th:href="@{/login}">Log in</a></p>
+                <a class="auth-back-link" th:href="@{/}">Back to home</a>
+            </div>
+        </div>
+    </section>
+</div>
+<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+</body>
+</html>
